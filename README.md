@@ -6,7 +6,7 @@ GitHub action that retries installing dependencies for less CI flakiness.
 
 ```yml
 steps:
-    - uses: doist/action-install-with-retry
+    - uses: Doist/action-install-with-retry@main
       with:
           install-cypress: 0
           skip-install-husky: 1
