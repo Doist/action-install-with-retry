@@ -1,0 +1,16 @@
+name: 'install-with-retry'
+description: 'Retries installing dependencies for less CI flakiness'
+inputs:
+    install-cypress:
+        description: 'Install Cypress binary (0 or 1)'
+        required: true
+        default: 0
+    skip-install-husky:
+        description: 'Skips Husky installation (0 or 1)'
+        required: true
+        default: 1
+
+runs:
+    using: 'composite'
+    steps:
+        - run: npm set progress=false && CYPRESS_INSTALL_BINARY=${{ inputs.install-cypress }} HUSKY_SKIP_INSTALL=${{ inputs.skip-install-husky }} npx retry-cli -n 3 -- npm ci --silent
