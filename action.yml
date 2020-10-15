@@ -14,3 +14,4 @@ runs:
     using: 'composite'
     steps:
         - run: npm set progress=false && CYPRESS_INSTALL_BINARY=${{ inputs.install-cypress }} HUSKY_SKIP_INSTALL=${{ inputs.skip-install-husky }} npx retry-cli -n 3 -- npm ci --silent
+          shell: 'bash'
