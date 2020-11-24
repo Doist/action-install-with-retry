@@ -4,11 +4,11 @@ inputs:
     install-cypress:
         description: 'Install Cypress binary (0 or 1)'
         required: true
-        default: 0
+        default: '0'
     skip-install-husky:
         description: 'Skips Husky installation (0 or 1)'
         required: true
-        default: 1
+        default: '1'
     gh-packages-token:
         description: 'Token used for authentication with GitHub Package Registry'
         required: true
@@ -27,3 +27,4 @@ runs:
               NODE_AUTH_TOKEN: ${{ inputs.gh-packages-token }}
         # `npm rebuild` will run all those post-install scripts for us.
         - run: npm rebuild
+          shell: 'bash'
