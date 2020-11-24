@@ -18,10 +18,7 @@ runs:
     steps:
         # Skip post-install scripts here, as a malicious
         # script could steal NODE_AUTH_TOKEN.
-        - run: npm set progress=false && \
-              CYPRESS_INSTALL_BINARY=${{ inputs.install-cypress }} \
-              HUSKY_SKIP_INSTALL=${{ inputs.skip-install-husky }} \
-              npx retry-cli -n 3 -- npm ci --silent --ignore-scripts
+        - run: npm set progress=false && CYPRESS_INSTALL_BINARY=${{ inputs.install-cypress }} HUSKY_SKIP_INSTALL=${{ inputs.skip-install-husky }} npx retry-cli -n 3 -- npm ci --silent --ignore-scripts
           shell: 'bash'
           env:
               NODE_AUTH_TOKEN: ${{ inputs.gh-packages-token }}
