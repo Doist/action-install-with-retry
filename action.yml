@@ -9,9 +9,21 @@ inputs:
         description: 'Skips Husky installation (0 or 1)'
         required: true
         default: 1
+    gh-packages-token:
+        description: 'Token used for authentication with GitHub Package Registry'
+        required: true
 
 runs:
     using: 'composite'
     steps:
-        - run: npm set progress=false && CYPRESS_INSTALL_BINARY=${{ inputs.install-cypress }} HUSKY_SKIP_INSTALL=${{ inputs.skip-install-husky }} npx retry-cli -n 3 -- npm ci --silent
+        # Skip post-install scripts here, as a malicious
+        # script could steal NODE_AUTH_TOKEN.
+        - run: npm set progress=false && \
+              CYPRESS_INSTALL_BINARY=${{ inputs.install-cypress }} \
+              HUSKY_SKIP_INSTALL=${{ inputs.skip-install-husky }} \
+              npx retry-cli -n 3 -- npm ci --silent --ignore-scripts
           shell: 'bash'
+          env:
+              NODE_AUTH_TOKEN: ${{ inputs.gh-packages-token }}
+        # `npm rebuild` will run all those post-install scripts for us.
+        - run: npm rebuild
